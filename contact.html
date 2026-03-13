@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | Jesus & Mary's Nursery School</title>
+  <meta name="description" content="Get in touch with Jesus & Mary's Nursery School — send a query, find our address, or enquire about admissions.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/contact.css">
+</head>
+<body data-page="contact">
+
+  <nav id="navbar"></nav>
+
+  <div class="page-hero">
+    <div class="page-hero-tag">Contact Us</div>
+    <h1>We'd Love to Hear from You</h1>
+    <p>Have a question about admissions, programs, or fees? Send us a message and we'll respond within 24 hours.</p>
+  </div>
+
+  <!-- ── CONTACT SECTION ── -->
+  <section class="contact-section">
+    <div class="container">
+      <div class="contact-grid">
+
+        <!-- Info Cards -->
+        <div class="info-cards fade-in">
+          <div class="info-card">
+            <div class="info-icon">📍</div>
+            <div>
+              <h4>Our Address</h4>
+              <p>Jesus & Mary's Nursery School<br>Your Street, Area Name<br>City, State – PIN Code</p>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-icon">📞</div>
+            <div>
+              <h4>Phone / WhatsApp</h4>
+              <p>+91 00000 00000<br>+91 00000 00000</p>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-icon">📧</div>
+            <div>
+              <h4>Email</h4>
+              <p>
+                <a href="mailto:info@jesusandmarynursery.in">info@jesusandmarynursery.in</a><br>
+                <a href="mailto:admissions@jesusandmarynursery.in">admissions@jesusandmarynursery.in</a>
+              </p>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-icon">🕐</div>
+            <div>
+              <h4>School Hours</h4>
+              <p>Monday – Saturday<br>8:00 AM – 12:30 PM</p>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-icon">📅</div>
+            <div>
+              <h4>Office Hours</h4>
+              <p>Monday – Saturday<br>8:00 AM – 2:00 PM</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Parent Query Form (Netlify) -->
+        <div class="query-form-wrap fade-in delay-1">
+          <div class="form-heading">Send Us a Query</div>
+          <div class="form-subheading">Fill in your details and we'll get back to you within 24 hours.</div>
+
+          <!--
+            NETLIFY FORM SETUP:
+            - The attribute data-netlify="true" tells Netlify to handle this form
+            - netlify-honeypot prevents spam bots
+            - Form submissions will appear in Netlify dashboard → Forms
+            - You can set up email notifications in Netlify settings
+          -->
+          <form
+            id="queryForm"
+            name="parent-query"
+            method="POST"
+            data-netlify="true"
+            netlify-honeypot="bot-field"
+            action="/contact.html"
+          >
+            <!-- Netlify required hidden fields -->
+            <input type="hidden" name="form-name" value="parent-query">
+            <p style="display:none">
+              <label>Don't fill this out: <input name="bot-field"></label>
+            </p>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="parent_name">Parent Name *</label>
+                <input type="text" id="parent_name" name="parent_name" placeholder="Your full name" required>
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone / WhatsApp *</label>
+                <input type="tel" id="phone" name="phone" placeholder="+91 00000 00000" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" placeholder="your@email.com">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="child_name">Child's Name *</label>
+                <input type="text" id="child_name" name="child_name" placeholder="Child's name" required>
+              </div>
+              <div class="form-group">
+                <label for="child_age">Child's Age *</label>
+                <input type="text" id="child_age" name="child_age" placeholder="e.g. 3 years" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="program">Program Interested In</label>
+              <select id="program" name="program">
+                <option value="">Select a program</option>
+                <option value="playgroup">Play Group (1.5 – 2.5 years)</option>
+                <option value="nursery">Nursery (2.5 – 3.5 years)</option>
+                <option value="lkg">LKG (3.5 – 4.5 years)</option>
+                <option value="ukg">UKG (4.5 – 5.5 years)</option>
+                <option value="activity">Activity Club</option>
+                <option value="summer">Summer Camp</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="message">Your Message / Query</label>
+              <textarea id="message" name="message" placeholder="Type your question or message here..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">✉️ Send Query</button>
+          </form>
+
+          <!-- Success message shown after local submit -->
+          <div class="form-success" id="formSuccess">
+            ✅ Thank you! Your query has been sent successfully. We will get back to you within 24 hours.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MAP SECTION ── -->
+  <section class="map-section">
+    <div class="container">
+      <div class="section-tag">Find Us</div>
+      <h2 class="section-title">Our Location</h2>
+      <div class="divider"></div>
+
+      <!--
+        TO ADD REAL GOOGLE MAP:
+        1. Go to maps.google.com
+        2. Search your school address
+        3. Click Share → Embed a map
+        4. Copy the <iframe> code and replace the div below
+      -->
+      <div class="map-placeholder">
+        <span>🗺️</span>
+        <p>Replace this with your Google Maps embed</p>
+        <p style="font-size:0.78rem;opacity:0.6;">Go to maps.google.com → Share → Embed a map</p>
+      </div>
+    </div>
+  </section>
+
+  <footer id="footer"></footer>
+  <script src="js/main.js"></script>
+  <script src="js/form.js"></script>
+</body>
+</html>

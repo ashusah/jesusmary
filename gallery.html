@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery | Jesus & Mary's Nursery School</title>
+  <meta name="description" content="Photo gallery — life at Jesus & Mary's Nursery School. Annual Day, Sports Day, classrooms, and more.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/gallery.css">
+</head>
+<body data-page="gallery">
+
+  <nav id="navbar"></nav>
+
+  <div class="page-hero">
+    <div class="page-hero-tag">Gallery</div>
+    <h1>Life at Jesus & Mary's Nursery</h1>
+    <p>A glimpse of the joy, creativity, and memories we create together every day.</p>
+  </div>
+
+  <!-- ── GALLERY ── -->
+  <section class="gallery-section">
+    <div class="container">
+
+      <!-- Filter Tabs -->
+      <div class="gallery-filters">
+        <button class="filter-btn active" data-filter="all">All Photos</button>
+        <button class="filter-btn" data-filter="classroom">Classroom</button>
+        <button class="filter-btn" data-filter="events">Events</button>
+        <button class="filter-btn" data-filter="sports">Sports Day</button>
+        <button class="filter-btn" data-filter="annual">Annual Day</button>
+        <button class="filter-btn" data-filter="campus">Campus</button>
+      </div>
+
+      <!-- Gallery Grid -->
+      <div class="gallery-grid">
+
+        <div class="gallery-item wide" data-category="campus">
+          <div class="gallery-placeholder">
+            <span class="ph-icon">🏫</span>
+            <p class="ph-label">School Building & Campus</p>
+          </div>
+          <!--
+            TO USE REAL PHOTO:
+            Replace the div above with:
+            <img src="images/gallery/campus-1.jpg" alt="School Campus">
+          -->
+          <div class="gallery-overlay">
+            <div class="gallery-caption">Our School Campus</div>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="classroom">
+          <div class="gallery-placeholder">
+            <span class="ph-icon">📚</span>
+            <p class="ph-label">Classroom</p>
+          </div>
+          <div class="gallery-overlay">
+            <div class="gallery-caption">LKG Classroom</div>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="annual">
+          <div class="gallery-placeholder">
+            <span class="ph-icon">🎉</span>
+            <p class="ph-label">Annual Day</p>
+          </div>
+          <div class="gallery-overlay">
+            <div class="gallery-caption">Annual Day Celebration</div>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="sports">
+          <div class="gallery-placeholder">
+            <span class="ph-icon">⚽</span>
+            <p class="ph-label">Sports Day</p>
+          </div>
+          <div class="gallery-overlay">
+            <div class="gallery-caption">Sports Day Race</div>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="events">
+          <div class="gallery-placeholder">
+            <span class="ph-icon">🎭</span>
+            <p class="ph-label">Cultural Program</p>
+          </div>
+          <div class="gallery-overlay">
+            <div class="gallery-caption">Cultural Program</div>
+          </div>
+        </div>
+
+        <div class="gallery-item wide" data-category="events">
+          <div class="gallery-placeholder">
+            <span class="ph-icon">🎊</span>
+            <p class="ph-label">Christmas Celebration</p>
+          </div>
+          <div class="gallery-overlay">
+            <div class="gallery-caption">Christmas Celebration</div>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="classroom">
+          <div class="gallery-placeholder">
+            <span class="ph-icon">🎨</span>
+            <p class="ph-label">Art & Craft</p>
+          </div>
+          <div class="gallery-overlay">
+            <div class="gallery-caption">Art & Craft Session</div>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="campus">
+          <div class="gallery-placeholder">
+            <span class="ph-icon">🌿</span>
+            <p class="ph-label">Playground</p>
+          </div>
+          <div class="gallery-overlay">
+            <div class="gallery-caption">Outdoor Playground</div>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="annual">
+          <div class="gallery-placeholder">
+            <span class="ph-icon">🏆</span>
+            <p class="ph-label">Prize Distribution</p>
+          </div>
+          <div class="gallery-overlay">
+            <div class="gallery-caption">Prize Distribution</div>
+          </div>
+        </div>
+
+      </div>
+
+      <p style="color:var(--text-muted);font-size:0.82rem;text-align:center;margin-top:2rem;background:var(--sky);padding:1rem;border-radius:var(--radius-md);">
+        📸 Replace placeholder boxes with real school photos using <code>&lt;img src="images/gallery/photo.jpg"&gt;</code>
+      </p>
+
+    </div>
+  </section>
+
+  <footer id="footer"></footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    // Gallery filter functionality
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filter = btn.getAttribute('data-filter');
+        document.querySelectorAll('.gallery-item').forEach(item => {
+          if (filter === 'all' || item.getAttribute('data-category') === filter) {
+            item.style.display = '';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
