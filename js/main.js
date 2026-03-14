@@ -92,15 +92,15 @@ function renderFooter() {
           <h4>Contact</h4>
           <div class="footer-contact-item">
             <span class="fc-icon">📍</span>
-            <p>Your Street, Area<br>City, State – PIN</p>
+            <p>Bunglow Nr 93, Opp Swarg Mandir<br>Mhow, MP – 453441</p>
           </div>
           <div class="footer-contact-item">
             <span class="fc-icon">📞</span>
-            <p>+91 00000 00000</p>
+            <p>+91 93294 81454</p>
           </div>
           <div class="footer-contact-item">
             <span class="fc-icon">🕐</span>
-            <p>Mon–Sat: 8AM – 12:30PM</p>
+            <p>Mon–Sat: 9:15AM – 12:30PM</p>
           </div>
         </div>
 
