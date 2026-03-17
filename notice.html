@@ -48,7 +48,7 @@
       const subjectLine = lines.find(line => line.startsWith('Subject:')) || '';
       const dateLine = lines.find(line => line.startsWith('Date:')) || '';
 
-      const subject = subjectLine.replace('Subject:', '').trim() || fileName.replace(/-notice\.txt$/, '').replace(/-/g, ' ');
+      const subject = subjectLine.replace('Subject:', '').trim() || fileName.replace(/-notice\.(txt|text)$/, '').replace(/-/g, ' ');
       const date = dateLine.replace('Date:', '').trim() || 'Date not specified';
 
       const body = bodyParts.join('\n\n').trim();
@@ -80,7 +80,7 @@
       const response = await fetch('notice/');
       if (!response.ok) throw new Error('Directory listing unavailable');
       const html = await response.text();
-      const matches = [...html.matchAll(/href=["']([^"']+-notice\.txt)["']/gi)];
+      const matches = [...html.matchAll(/href=[\"']([^\"']+-notice\.(?:txt|text))[\"']/gi)];
       return [...new Set(matches.map(match => decodeURIComponent(match[1]).split('/').pop()))];
     };
 
@@ -88,10 +88,10 @@
       const response = await fetch('notice/notices.json');
       if (!response.ok) return [];
       const files = await response.json();
-      return Array.isArray(files) ? files.filter(file => /-notice\.txt$/i.test(file)) : [];
+      return Array.isArray(files) ? files.filter(file => /-notice\.(txt|text)$/i.test(file)) : [];
     };
 
-    const normalizeFiles = files => [...new Set(files.filter(file => /-notice\.txt$/i.test(file)))];
+    const normalizeFiles = files => [...new Set(files.filter(file => /-notice\.(txt|text)$/i.test(file)))];
 
     const loadNotices = async () => {
       try {
