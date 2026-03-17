@@ -348,6 +348,43 @@ ul { list-style: none; }
   line-height: 1.5;
 }
 
+.footer-socials {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.55rem;
+}
+
+.footer-social-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+
+.footer-social-icon svg {
+  width: 18px;
+  height: 18px;
+  fill: #fff;
+}
+
+.footer-social-icon.instagram {
+  background: radial-gradient(circle at 30% 110%, #fdf497 0%, #fdf497 8%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+}
+
+.footer-social-icon.facebook {
+  background: #1877F2;
+}
+
+.footer-social-icon:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.28);
+}
+
 .footer-bottom {
   display: flex;
   justify-content: space-between;
