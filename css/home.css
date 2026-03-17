@@ -4,20 +4,59 @@
 ═══════════════════════════════════════════════ */
 
 /* ══════════════════════════════════════════════
-   HERO — SPLIT LAYOUT
+   HERO CAROUSEL
 ══════════════════════════════════════════════ */
-.hero {
-  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 55%, var(--primary-light) 100%);
-  padding: 3.5rem 2rem 0;
+.hero-carousel {
   position: relative;
+  width: 100%;
+  /* Fill viewport minus navbar (68px) — no scroll needed to see hero */
+  height: calc(100vh - 68px);
+  min-height: 560px;
+  max-height: 900px;
   overflow: hidden;
-  min-height: 620px;
+  background: var(--primary-dark);
+  /* Override global section { padding: 5rem 2rem } */
+  padding: 0 !important;
+  margin: 0;
+}
+
+/* ── Each slide ── */
+.carousel-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center center;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+  pointer-events: none;
+  padding-bottom: 0;
+}
+
+.carousel-slide.active {
+  opacity: 1;
+  pointer-events: auto;
+  /* stays absolute — carousel height drives layout */
+}
+
+/* ── Gradient overlay: heavy navy left → fades right so image shows ── */
+.slide-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    rgba(13,22,66,0.96) 0%,
+    rgba(26,35,126,0.88) 40%,
+    rgba(26,35,126,0.55) 65%,
+    rgba(13,22,66,0.25) 100%
+  );
+  z-index: 1;
 }
 
 /* ── Organic blob decorations ── */
 .hero-blob {
   position: absolute;
   pointer-events: none;
+  z-index: 2;
 }
 
 .hero-blob-1 {
@@ -49,20 +88,26 @@
   to   { transform: translate(12px, -18px) scale(1.04); }
 }
 
-/* ── Inner layout ── */
-.hero-inner {
+/* ── Inner layout (text left, badge right) ── */
+.slide-inner {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
   max-width: 1100px;
-  margin: 0 auto;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 2rem 2rem 110px;
   display: grid;
-  grid-template-columns: 52% 48%;
-  align-items: flex-end;
-  gap: 0;
-  position: relative;
-  z-index: 2;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 3rem;
 }
 
-/* ── LEFT: Text ── */
-.hero-content { padding-bottom: 5rem; padding-right: 2rem; }
+/* ── LEFT: text content ── */
+.slide-content {
+  max-width: 560px;
+}
 
 .hero-badge {
   display: inline-block;
@@ -78,6 +123,12 @@
   margin-bottom: 1.25rem;
 }
 
+.admissions-badge {
+  background: rgba(249,168,37,0.3);
+  border-color: var(--gold);
+  font-size: 0.85rem;
+}
+
 .hero-stars {
   display: flex;
   gap: 7px;
@@ -90,7 +141,6 @@
   clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
   animation: twinkle 2s ease-in-out infinite alternate;
 }
-
 .star:nth-child(2) { animation-delay: 0.3s; }
 .star:nth-child(3) { animation-delay: 0.6s; }
 .star:nth-child(4) { animation-delay: 0.9s; }
@@ -101,7 +151,7 @@
   to   { opacity: 1;   transform: scale(1.1); }
 }
 
-.hero h1 {
+.carousel-slide h1 {
   font-family: 'Poppins', sans-serif;
   font-size: clamp(2rem, 3.8vw, 3.2rem);
   font-weight: 700;
@@ -110,12 +160,12 @@
   margin-bottom: 1rem;
 }
 
-.hero h1 em { color: var(--gold); font-style: normal; }
+.carousel-slide h1 em { color: var(--gold); font-style: normal; }
 
-.hero p {
-  color: rgba(255,255,255,0.78);
+.carousel-slide p {
+  color: rgba(255,255,255,0.80);
   font-size: 1rem;
-  max-width: 460px;
+  max-width: 480px;
   margin-bottom: 2.25rem;
   line-height: 1.75;
 }
@@ -143,38 +193,156 @@
   border-color: white;
 }
 
-/* ── RIGHT: Child photo ── */
-.hero-illustration {
-  position: relative;
+/* ── RIGHT: decorative badge circle ── */
+.slide-badge-visual {
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-  overflow: visible;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
-/* Rings off */
-.hero-ring { display: none; }
+.badge-circle {
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: rgba(249,168,37,0.18);
+  border: 3px solid rgba(249,168,37,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: badgePulse 3s ease-in-out infinite;
+  box-shadow: 0 0 40px rgba(249,168,37,0.2), inset 0 0 30px rgba(249,168,37,0.05);
+}
 
-/* ── Real child photo ── */
-.hero-child-img {
-  width: auto;
-  height: 580px;
-  max-height: 90vh;
-  object-fit: contain;
-  object-position: bottom right;
-  position: relative;
-  z-index: 2;
-  display: block;
-  margin-bottom: -2px;
-  margin-top: -50px;
-  filter: drop-shadow(-8px 0 32px rgba(0,0,0,0.20));
+.admissions-circle {
+  background: rgba(249,168,37,0.22);
+  border-color: var(--gold);
+  box-shadow: 0 0 50px rgba(249,168,37,0.3);
+}
+
+.legacy-circle {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.4);
+  box-shadow: 0 0 40px rgba(255,255,255,0.1);
+}
+
+@keyframes badgePulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 40px rgba(249,168,37,0.2); }
+  50%       { transform: scale(1.04); box-shadow: 0 0 60px rgba(249,168,37,0.35); }
+}
+
+.badge-circle-inner {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.badge-tiny {
+  color: rgba(255,255,255,0.7);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.badge-big {
+  color: var(--gold);
+  font-family: 'Poppins', sans-serif;
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.badge-small {
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ── Navigation arrows ── */
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: rgba(255,255,255,0.12);
+  border: 2px solid rgba(255,255,255,0.3);
+  color: white;
+  width: 50px; height: 50px;
+  border-radius: 50%;
+  font-size: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+
+.carousel-arrow:hover {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--primary-dark);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-arrow.prev { left: 1.5rem; }
+.carousel-arrow.next { right: 1.5rem; }
+
+/* ── Navigation dots ── */
+.carousel-dots {
+  position: absolute;
+  bottom: 96px;   /* above the wave */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  gap: 10px;
+}
+
+.carousel-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  padding: 0;
+}
+
+.carousel-dot.active {
+  background: var(--gold);
+  width: 30px;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(249,168,37,0.5);
+}
+
+/* ── Progress bar ── */
+.carousel-progress {
+  position: absolute;
+  bottom: 80px;
+  left: 0; right: 0;
+  height: 3px;
+  background: rgba(255,255,255,0.15);
+  z-index: 10;
+}
+
+.carousel-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--gold);
+  border-radius: 2px;
 }
 
 /* ── Wave bottom ── */
 .hero-wave-bottom {
-  position: relative;
-  z-index: 2;
-  margin-top: -2px;
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  z-index: 5;
   line-height: 0;
 }
 
@@ -438,16 +606,34 @@
 }
 
 @media (max-width: 768px) {
-  .hero { padding: 3rem 1.5rem 0; min-height: auto; }
-  .hero-inner { grid-template-columns: 1fr; text-align: center; }
-  .hero-content { padding-bottom: 1.5rem; }
-  .hero-content p { max-width: 100%; }
+  .hero-carousel {
+    height: calc(100vh - 68px);
+    min-height: 500px;
+  }
+
+  .slide-inner {
+    grid-template-columns: 1fr;
+    padding: 1.5rem 1.5rem 110px;
+    text-align: center;
+    gap: 1rem;
+    /* reset absolute centering for mobile */
+    left: 0;
+    transform: none;
+    max-width: 100%;
+    justify-items: center;
+  }
+
+  .slide-content { max-width: 100%; }
+  .carousel-slide p { max-width: 100%; }
   .hero-btns { justify-content: center; }
   .hero-stars { justify-content: center; }
-  .hero-illustration { overflow: hidden; max-height: 340px; }
-  .hero-child-img { height: 340px; max-height: 340px; width: auto; }
-  .hero-ring-1 { width: 260px; height: 260px; }
-  .hero-ring-2 { width: 200px; height: 200px; }
+
+  .slide-badge-visual { display: none; }
+
+  .carousel-arrow { display: none; }
+
+  .carousel-dots { bottom: 88px; }
+
   .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
   .features-grid { grid-template-columns: 1fr; }
 }
@@ -455,5 +641,5 @@
 @media (max-width: 480px) {
   .programs-grid { grid-template-columns: 1fr; }
   .stat-item { padding: 1.25rem 1rem; }
-  .hero h1 { font-size: 1.75rem; }
+  .carousel-slide h1 { font-size: 1.75rem; }
 }

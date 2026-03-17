@@ -13,36 +13,120 @@
   <!-- Navbar injected by main.js -->
   <nav id="navbar"></nav>
 
-  <!-- ── HERO ── -->
-  <section class="hero">
-    <div class="hero-blob hero-blob-1"></div>
-    <div class="hero-blob hero-blob-2"></div>
-    <div class="hero-blob hero-blob-3"></div>
+  <!-- ── HERO CAROUSEL ── -->
+  <section class="hero-carousel" id="heroCarousel">
 
-    <div class="hero-inner">
-
-      <!-- LEFT: Text -->
-      <div class="hero-content">
-        <div class="hero-badge">Admissions Open 2025–26</div>
-        <div class="hero-stars">
-          <div class="star"></div><div class="star"></div><div class="star"></div>
-          <div class="star"></div><div class="star"></div>
+    <!-- Slide 1: First Preschool of Mhow -->
+    <div class="carousel-slide active" data-bg="images/gallery/Classroom/Classroom.jpeg">
+      <div class="slide-overlay"></div>
+      <div class="hero-blob hero-blob-1"></div>
+      <div class="hero-blob hero-blob-2"></div>
+      <div class="hero-blob hero-blob-3"></div>
+      <div class="slide-inner">
+        <div class="slide-content">
+          <div class="hero-badge">Est. Since 1996 · Mhow</div>
+          <div class="hero-stars">
+            <div class="star"></div><div class="star"></div><div class="star"></div>
+            <div class="star"></div><div class="star"></div>
+          </div>
+          <h1>Mhow's <em>First &amp; Most<br>Trusted</em> Pre-School</h1>
+          <p>Pioneering early childhood education in Mhow for three decades — where every child's unique story begins with love, care, and faith.</p>
+          <div class="hero-btns">
+            <a href="contact.html" class="btn btn-primary">✨ Enquire for Admission</a>
+            <a href="about.html" class="btn-hero-outline">Our Story →</a>
+          </div>
         </div>
-        <h1>Where Every Child's<br><em>Journey Begins</em></h1>
-        <p>A nurturing environment rooted in Knowledge, Truth, and Faith — where young minds grow, explore, and flourish every single day.</p>
-        <div class="hero-btns">
-          <a href="contact.html" class="btn btn-primary">✨ Enquire for Admission</a>
-          <a href="about.html" class="btn-hero-outline">Learn More →</a>
-          <a href="notice.html" class="btn-hero-outline">School Notices →</a>
+        <div class="slide-badge-visual">
+          <div class="badge-circle">
+            <div class="badge-circle-inner">
+              <span class="badge-big">1st</span>
+              <span class="badge-small">Pre-School</span>
+              <span class="badge-small">in Mhow</span>
+            </div>
+          </div>
         </div>
       </div>
-
-      <!-- RIGHT: Real child photo -->
-      <div class="hero-illustration">
-        <img src="images/hero-child.png" alt="Child threading colourful beads" class="hero-child-img">
-      </div>
-
     </div>
+
+    <!-- Slide 2: Admissions Open -->
+    <div class="carousel-slide" data-bg="images/gallery/1st Day of School/1st day.jpeg">
+      <div class="slide-overlay"></div>
+      <div class="hero-blob hero-blob-1"></div>
+      <div class="hero-blob hero-blob-2"></div>
+      <div class="hero-blob hero-blob-3"></div>
+      <div class="slide-inner">
+        <div class="slide-content">
+          <div class="hero-badge admissions-badge">🎉 Admissions Open 2026–27</div>
+          <div class="hero-stars">
+            <div class="star"></div><div class="star"></div><div class="star"></div>
+            <div class="star"></div><div class="star"></div>
+          </div>
+          <h1>Begin Your Child's<br><em>Journey With Us</em></h1>
+          <p>Seats are limited for Play Group, Nursery, LKG &amp; UKG. Secure your child's spot today and give them the best start in life.</p>
+          <div class="hero-btns">
+            <a href="contact.html" class="btn btn-primary">📩 Enquire Now</a>
+            <a href="programs.html" class="btn-hero-outline">View Programs →</a>
+          </div>
+        </div>
+        <div class="slide-badge-visual">
+          <div class="badge-circle admissions-circle">
+            <div class="badge-circle-inner">
+              <span class="badge-big" style="font-size:1.1rem;">2026</span>
+              <span class="badge-small">–27</span>
+              <span class="badge-small">Admissions</span>
+              <span class="badge-small">Open</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3: 30 Years of Excellence -->
+    <div class="carousel-slide" data-bg="images/gallery/Events/school event.jpeg">
+      <div class="slide-overlay"></div>
+      <div class="hero-blob hero-blob-1"></div>
+      <div class="hero-blob hero-blob-2"></div>
+      <div class="hero-blob hero-blob-3"></div>
+      <div class="slide-inner">
+        <div class="slide-content">
+          <div class="hero-badge">🏆 Celebrating 30+ Years</div>
+          <div class="hero-stars">
+            <div class="star"></div><div class="star"></div><div class="star"></div>
+            <div class="star"></div><div class="star"></div>
+          </div>
+          <h1>Three Decades of<br><em>Shaping Young Minds</em></h1>
+          <p>Over 20,000 happy students, 40+ qualified teachers, and a legacy built on Knowledge, Truth &amp; Faith. A tradition families trust.</p>
+          <div class="hero-btns">
+            <a href="about.html" class="btn btn-primary">🌟 Our Legacy</a>
+            <a href="gallery.html" class="btn-hero-outline">See Gallery →</a>
+          </div>
+        </div>
+        <div class="slide-badge-visual">
+          <div class="badge-circle legacy-circle">
+            <div class="badge-circle-inner">
+              <span class="badge-tiny">Celebrating</span>
+              <span class="badge-big">30+</span>
+              <span class="badge-small">Years of</span>
+              <span class="badge-small">Excellence</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <button class="carousel-arrow prev" id="carouselPrev" aria-label="Previous slide">&#8249;</button>
+    <button class="carousel-arrow next" id="carouselNext" aria-label="Next slide">&#8250;</button>
+
+    <!-- Dots -->
+    <div class="carousel-dots" id="carouselDots">
+      <button class="carousel-dot active" data-index="0" aria-label="Slide 1"></button>
+      <button class="carousel-dot" data-index="1" aria-label="Slide 2"></button>
+      <button class="carousel-dot" data-index="2" aria-label="Slide 3"></button>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="carousel-progress"><div class="carousel-progress-bar" id="carouselProgress"></div></div>
 
     <!-- Wave bottom transition -->
     <div class="hero-wave-bottom">
@@ -231,12 +315,82 @@
   <section class="home-cta">
     <div class="container text-center">
       <h2>Ready to Give Your Child the Best Start?</h2>
-      <p>Admissions are now open for 2025–26. Reach out today and let us show you around.</p>
+      <p>Admissions are now open for 2026–27. Reach out today and let us show you around.</p>
       <a href="contact.html" class="btn btn-white">📩 Send an Enquiry</a>
     </div>
   </section>
 
   <footer id="footer"></footer>
   <script src="js/main.js"></script>
+  <script>
+    /* ── HERO CAROUSEL ── */
+    (function() {
+      const slides     = document.querySelectorAll('.carousel-slide');
+      const dots       = document.querySelectorAll('.carousel-dot');
+      const progress   = document.getElementById('carouselProgress');
+      const prevBtn    = document.getElementById('carouselPrev');
+      const nextBtn    = document.getElementById('carouselNext');
+      let current      = 0;
+      let timer        = null;
+      let progressTimer = null;
+      const DURATION   = 7000; // 7 seconds
+
+      // Set background images
+      slides.forEach(slide => {
+        const bg = slide.getAttribute('data-bg');
+        if (bg) slide.style.backgroundImage = `url('${bg}')`;
+      });
+
+      function goTo(index) {
+        slides[current].classList.remove('active');
+        dots[current].classList.remove('active');
+        current = (index + slides.length) % slides.length;
+        slides[current].classList.add('active');
+        dots[current].classList.add('active');
+        resetProgress();
+      }
+
+      function resetProgress() {
+        if (progress) {
+          progress.style.transition = 'none';
+          progress.style.width = '0%';
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              progress.style.transition = `width ${DURATION}ms linear`;
+              progress.style.width = '100%';
+            });
+          });
+        }
+      }
+
+      function startAuto() {
+        clearInterval(timer);
+        timer = setInterval(() => goTo(current + 1), DURATION);
+      }
+
+      prevBtn.addEventListener('click', () => { goTo(current - 1); startAuto(); });
+      nextBtn.addEventListener('click', () => { goTo(current + 1); startAuto(); });
+
+      dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+          goTo(parseInt(dot.getAttribute('data-index')));
+          startAuto();
+        });
+      });
+
+      // Touch/swipe support
+      let touchStartX = 0;
+      const carousel = document.getElementById('heroCarousel');
+      carousel.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+      carousel.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(dx) > 50) { goTo(dx < 0 ? current + 1 : current - 1); startAuto(); }
+      }, { passive: true });
+
+      // Init
+      resetProgress();
+      startAuto();
+    })();
+  </script>
 </body>
 </html>
