@@ -7,6 +7,74 @@
   <meta name="description" content="Official school notices for admissions, holidays, and parent updates at Jesus & Mary's Nursery School.">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/notice.css">
+  <style>
+    /* ── Notice card enhancements ── */
+    .notice-card {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+    }
+
+    .notice-card-body p {
+      margin: 0 0 0.75rem;
+      line-height: 1.75;
+      color: #374151;
+    }
+
+    .notice-card-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Salutation line (Dear Parents...) */
+    .notice-salutation {
+      font-weight: 600;
+      color: #1e3a5f;
+      margin-bottom: 1rem !important;
+    }
+
+    /* Signature block */
+    .notice-signature {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      padding-top: 1.25rem;
+      border-top: 1.5px dashed #c7d2e8;
+    }
+
+    .notice-signature-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1e3a5f 0%, #2e5fa3 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1rem;
+    }
+
+    .notice-signature-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .notice-signature-name {
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: #1e3a5f;
+      line-height: 1.3;
+    }
+
+    .notice-signature-role {
+      font-size: 0.78rem;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 500;
+    }
+  </style>
 </head>
 <body data-page="notice">
   <nav id="navbar"></nav>
@@ -45,14 +113,53 @@
       const [headerBlock, ...bodyParts] = cleaned.split('\n\n');
       const lines = (headerBlock || '').split('\n');
 
-      const subjectLine = lines.find(line => line.startsWith('Subject:')) || '';
-      const dateLine = lines.find(line => line.startsWith('Date:')) || '';
+      const subjectLine = lines.find(l => l.startsWith('Subject:')) || '';
+      const dateLine   = lines.find(l => l.startsWith('Date:'))    || '';
 
-      const subject = subjectLine.replace('Subject:', '').trim() || fileName.replace(/-notice\.(txt|text)$/, '').replace(/-/g, ' ');
+      const subject = subjectLine.replace('Subject:', '').trim()
+        || fileName.replace(/-notice\.(txt|text)$/, '').replace(/-/g, ' ');
       const date = dateLine.replace('Date:', '').trim() || 'Date not specified';
 
-      const body = bodyParts.join('\n\n').trim();
-      return { subject, date, body, fileName };
+      // Separate signature paragraph from body
+      const allParagraphs = bodyParts.map(p => p.trim()).filter(Boolean);
+      let signatureName = '';
+      let signatureRole = '';
+      const bodyParagraphs = [];
+
+      for (const para of allParagraphs) {
+        if (/^Signature:/i.test(para)) {
+          // Format: "Signature: Sr. Mary D'Souza | Principal"
+          const sigContent = para.replace(/^Signature:/i, '').trim();
+          const parts = sigContent.split('|').map(s => s.trim());
+          signatureName = parts[0] || '';
+          signatureRole = parts[1] || '';
+        } else {
+          bodyParagraphs.push(para);
+        }
+      }
+
+      return { subject, date, bodyParagraphs, signatureName, signatureRole, fileName };
+    };
+
+    const renderBodyParagraphs = paragraphs => {
+      return paragraphs.map((para, i) => {
+        if (i === 0 && /^Dear /i.test(para)) {
+          return `<p class="notice-salutation">${para}</p>`;
+        }
+        return `<p>${para}</p>`;
+      }).join('');
+    };
+
+    const renderSignature = (name, role) => {
+      if (!name) return '';
+      return `
+        <div class="notice-signature">
+          <div class="notice-signature-icon">✍️</div>
+          <div class="notice-signature-text">
+            <span class="notice-signature-name">${name}</span>
+            ${role ? `<span class="notice-signature-role">${role}</span>` : ''}
+          </div>
+        </div>`;
     };
 
     const renderNotices = notices => {
@@ -64,25 +171,27 @@
 
       noticeCount.textContent = `${notices.length} notice${notices.length === 1 ? '' : 's'}`;
       noticeTimeline.innerHTML = notices.map((notice, index) => `
-        <article class="notice-card" style="animation-delay:${index * 0.08}s">
+        <article class="notice-card" style="transition-delay:${index * 0.1}s">
           <div class="notice-dot" aria-hidden="true"></div>
           <div class="notice-card-head">
             <h3>${notice.subject}</h3>
             <span>${notice.date}</span>
           </div>
-          <div class="notice-card-body">${notice.body.split('\n\n').map(p => `<p>${p}</p>`).join('')}</div>
+          <div class="notice-card-body">
+            ${renderBodyParagraphs(notice.bodyParagraphs)}
+            ${renderSignature(notice.signatureName, notice.signatureRole)}
+          </div>
           <a class="notice-download" href="notice/${notice.fileName}" target="_blank" rel="noopener noreferrer">View original notice</a>
         </article>
       `).join('');
 
-      // Force visibility — cards are injected after IntersectionObserver runs in main.js
-      // so fade-in class never gets triggered. We animate via CSS instead.
+      // Trigger entrance animation — cards are injected after IntersectionObserver runs in main.js
       requestAnimationFrame(() => {
         document.querySelectorAll('.notice-card').forEach((el, i) => {
           setTimeout(() => {
             el.style.opacity = '1';
             el.style.transform = 'translateY(0)';
-          }, i * 80);
+          }, i * 100);
         });
       });
     };
@@ -92,58 +201,47 @@
       if (!response.ok) throw new Error('Directory listing unavailable');
       const html = await response.text();
       const matches = [...html.matchAll(/href=[\"']([^\"']+-notice\.(?:txt|text))[\"']/gi)];
-      return [...new Set(matches.map(match => decodeURIComponent(match[1]).split('/').pop()))];
+      return [...new Set(matches.map(m => decodeURIComponent(m[1]).split('/').pop()))];
     };
 
     const getFilesFromManifest = async () => {
       const response = await fetch('notice/notices.json', { cache: 'no-store' });
       if (!response.ok) return [];
-
       try {
         const files = await response.json();
-        return Array.isArray(files) ? files.filter(file => /-notice\.(txt|text)$/i.test(file)) : [];
-      } catch {
-        return [];
-      }
+        return Array.isArray(files) ? files.filter(f => /-notice\.(txt|text)$/i.test(f)) : [];
+      } catch { return []; }
     };
 
-    const normalizeFiles = files => [...new Set(files.filter(file => /-notice\.(txt|text)$/i.test(file)))];
+    const normalizeFiles = files => [...new Set(files.filter(f => /-notice\.(txt|text)$/i.test(f)))];
 
     const withAlternateExtension = file => {
       if (/-notice\.text$/i.test(file)) return file.replace(/\.text$/i, '.txt');
-      if (/-notice\.txt$/i.test(file)) return file.replace(/\.txt$/i, '.text');
+      if (/-notice\.txt$/i.test(file))  return file.replace(/\.txt$/i, '.text');
       return file;
     };
 
     const loadNoticeFile = async file => {
       const attempts = normalizeFiles([file, withAlternateExtension(file)]);
-
       for (const candidate of attempts) {
         const response = await fetch(`notice/${candidate}`, { cache: 'no-store' });
         if (!response.ok) continue;
-
         const text = await response.text();
         return parseNoticeText(text, candidate);
       }
-
       return null;
     };
 
     const loadNotices = async () => {
       try {
         let filesFromListing = [];
-        try {
-          filesFromListing = normalizeFiles(await getFilesFromDirectoryListing());
-        } catch {
-          filesFromListing = [];
-        }
+        try { filesFromListing = normalizeFiles(await getFilesFromDirectoryListing()); }
+        catch { filesFromListing = []; }
 
         const filesFromManifest = normalizeFiles(await getFilesFromManifest());
         const defaultFiles = [
-          'admission-notice.text',
-          'summer-holidays-notice.text',
-          'admission-notice.txt',
-          'summer-holidays-notice.txt'
+          'admission-notice.text', 'summer-holidays-notice.text',
+          'admission-notice.txt',  'summer-holidays-notice.txt'
         ];
 
         const discoveredFiles = normalizeFiles([...filesFromListing, ...filesFromManifest]);
@@ -152,16 +250,11 @@
         const notices = await Promise.all(files.map(loadNoticeFile));
         const clean = notices.filter(Boolean);
 
-        if (!clean.length) {
-          renderNotices([]);
-          return;
-        }
+        if (!clean.length) { renderNotices([]); return; }
 
         clean.sort((a, b) => new Date(b.date) - new Date(a.date));
         renderNotices(clean);
-      } catch {
-        renderNotices([]);
-      }
+      } catch { renderNotices([]); }
     };
 
     loadNotices();
