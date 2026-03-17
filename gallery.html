@@ -21,119 +21,19 @@
   <!-- ── GALLERY ── -->
   <section class="gallery-section">
     <div class="container">
+      <div class="gallery-head fade-in">
+        <div>
+          <div class="section-tag">Photo Moments</div>
+          <h2 class="section-title">Explore by Occasion</h2>
+        </div>
+        <div class="gallery-total" id="galleryTotal"></div>
+      </div>
 
       <!-- Filter Tabs -->
-      <div class="gallery-filters">
-        <button class="filter-btn active" data-filter="all">All Photos</button>
-        <button class="filter-btn" data-filter="classroom">Classroom</button>
-        <button class="filter-btn" data-filter="events">Events</button>
-        <button class="filter-btn" data-filter="sports">Sports Day</button>
-        <button class="filter-btn" data-filter="annual">Annual Day</button>
-        <button class="filter-btn" data-filter="campus">Campus</button>
-      </div>
+      <div class="gallery-filters" id="galleryFilters"></div>
 
       <!-- Gallery Grid -->
-      <div class="gallery-grid">
-
-        <div class="gallery-item wide" data-category="campus">
-			<img src="images/gallery/campus-1.jpg" alt="School Campus">
-			  			
-          <!--
-            TO USE REAL PHOTO:
-            Replace the div above with:
-            <img src="images/gallery/campus-1.jpg" alt="School Campus">
-          -->
-          <div class="gallery-overlay">
-            <div class="gallery-caption">Our School Campus</div>
-          </div>
-        </div>
-
-        <div class="gallery-item" data-category="classroom">
-          <div class="gallery-placeholder">
-            <span class="ph-icon">📚</span>
-            <p class="ph-label">Classroom</p>
-          </div>
-          <div class="gallery-overlay">
-            <div class="gallery-caption">LKG Classroom</div>
-          </div>
-        </div>
-
-        <div class="gallery-item" data-category="annual">
-          <div class="gallery-placeholder">
-            <span class="ph-icon">🎉</span>
-            <p class="ph-label">Annual Day</p>
-          </div>
-          <div class="gallery-overlay">
-            <div class="gallery-caption">Annual Day Celebration</div>
-          </div>
-        </div>
-
-        <div class="gallery-item" data-category="sports">
-          <div class="gallery-placeholder">
-            <span class="ph-icon">⚽</span>
-            <p class="ph-label">Sports Day</p>
-          </div>
-          <div class="gallery-overlay">
-            <div class="gallery-caption">Sports Day Race</div>
-          </div>
-        </div>
-
-        <div class="gallery-item" data-category="events">
-          <div class="gallery-placeholder">
-            <span class="ph-icon">🎭</span>
-            <p class="ph-label">Cultural Program</p>
-          </div>
-          <div class="gallery-overlay">
-            <div class="gallery-caption">Cultural Program</div>
-          </div>
-        </div>
-
-        <div class="gallery-item wide" data-category="events">
-          <div class="gallery-placeholder">
-            <span class="ph-icon">🎊</span>
-            <p class="ph-label">Christmas Celebration</p>
-          </div>
-          <div class="gallery-overlay">
-            <div class="gallery-caption">Christmas Celebration</div>
-          </div>
-        </div>
-
-        <div class="gallery-item" data-category="classroom">
-          <div class="gallery-placeholder">
-            <span class="ph-icon">🎨</span>
-            <p class="ph-label">Art & Craft</p>
-          </div>
-          <div class="gallery-overlay">
-            <div class="gallery-caption">Art & Craft Session</div>
-          </div>
-        </div>
-
-        <div class="gallery-item" data-category="campus">
-          <div class="gallery-placeholder">
-            <span class="ph-icon">🌿</span>
-            <p class="ph-label">Playground</p>
-          </div>
-          <div class="gallery-overlay">
-            <div class="gallery-caption">Outdoor Playground</div>
-          </div>
-        </div>
-
-        <div class="gallery-item" data-category="annual">
-          <div class="gallery-placeholder">
-            <span class="ph-icon">🏆</span>
-            <p class="ph-label">Prize Distribution</p>
-          </div>
-          <div class="gallery-overlay">
-            <div class="gallery-caption">Prize Distribution</div>
-          </div>
-        </div>
-
-      </div>
-
-      <p style="color:var(--text-muted);font-size:0.82rem;text-align:center;margin-top:2rem;background:var(--sky);padding:1rem;border-radius:var(--radius-md);">
-        📸 Replace placeholder boxes with real school photos using <code>&lt;img src="images/gallery/photo.jpg"&gt;</code>
-      </p>
-
+      <div class="gallery-grid" id="galleryGrid"></div>
     </div>
   </section>
 
@@ -141,21 +41,146 @@
 
   <script src="js/main.js"></script>
   <script>
-    // Gallery filter functionality
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+    const galleryData = [
+      {
+        name: '1st Day of School',
+        slug: '1st-day-of-school',
+        images: [
+          'images/gallery/1st Day of School/1st day.jpeg',
+          'images/gallery/1st Day of School/day 1.jpeg'
+        ]
+      },
+      {
+        name: 'Christmas Celebration',
+        slug: 'christmas-celebration',
+        images: [
+          'images/gallery/Christmas Celebration/Christmas.jpeg',
+          'images/gallery/Christmas Celebration/Christmas - Copy.jpeg'
+        ]
+      },
+      {
+        name: 'Classroom',
+        slug: 'classroom',
+        images: [
+          'images/gallery/Classroom/Act.jpeg',
+          'images/gallery/Classroom/Activities.jpeg',
+          'images/gallery/Classroom/Art Activity.jpeg',
+          'images/gallery/Classroom/Class Act.jpeg',
+          'images/gallery/Classroom/Class Activities.jpeg',
+          'images/gallery/Classroom/Class activity.jpeg',
+          'images/gallery/Classroom/Classroom.jpeg',
+          'images/gallery/Classroom/WhatsApp Image 2026-03-17 at 10.56.10.jpeg'
+        ]
+      },
+      {
+        name: 'Diwali Celebration',
+        slug: 'diwali-celebration',
+        images: [
+          'images/gallery/Diwali Celebration/Diwali.jpeg',
+          'images/gallery/Diwali Celebration/WhatsApp Image 2026-03-17 at 11.35.24.jpeg',
+          'images/gallery/Diwali Celebration/WhatsApp Image 2026-03-17 at 11.35.52.jpeg',
+          'images/gallery/Diwali Celebration/WhatsApp Image 2026-03-17 at 11.37.46 (1).jpeg',
+          'images/gallery/Diwali Celebration/WhatsApp Image 2026-03-17 at 11.37.46.jpeg'
+        ]
+      },
+      {
+        name: 'Events',
+        slug: 'events',
+        images: [
+          'images/gallery/Events/Event Diwali - Copy.jpeg',
+          'images/gallery/Events/Event Diwali.jpeg',
+          'images/gallery/Events/Independence day.jpeg',
+          'images/gallery/Events/Juice corner.jpeg',
+          'images/gallery/Events/Mango.jpeg',
+          'images/gallery/Events/Rakhi.jpeg',
+          'images/gallery/Events/Tatoo.jpeg',
+          'images/gallery/Events/Water day.jpeg',
+          'images/gallery/Events/Yellow Day.jpeg',
+          'images/gallery/Events/Yellow.jpeg',
+          'images/gallery/Events/banana day.jpeg',
+          'images/gallery/Events/school event.jpeg',
+          'images/gallery/Events/water.jpeg'
+        ]
+      },
+      {
+        name: 'Fun Fair',
+        slug: 'fun-fair',
+        images: [
+          'images/gallery/Fun Fair/Fun fair.jpeg',
+          'images/gallery/Fun Fair/Funfair.jpeg'
+        ]
+      },
+      {
+        name: 'Outdoor Trips',
+        slug: 'outdoor-trips',
+        images: [
+          'images/gallery/Outdoor Trips/Outdoor Act- Field Trips.jpeg',
+          'images/gallery/Outdoor Trips/School trip.jpeg',
+          'images/gallery/Outdoor Trips/outdoor trip.jpeg',
+          'images/gallery/Outdoor Trips/shooting range.jpeg'
+        ]
+      }
+    ];
 
-        const filter = btn.getAttribute('data-filter');
-        document.querySelectorAll('.gallery-item').forEach(item => {
-          if (filter === 'all' || item.getAttribute('data-category') === filter) {
-            item.style.display = '';
-          } else {
-            item.style.display = 'none';
-          }
-        });
+    const galleryFilters = document.getElementById('galleryFilters');
+    const galleryGrid = document.getElementById('galleryGrid');
+    const galleryTotal = document.getElementById('galleryTotal');
+
+    const allImages = galleryData.flatMap(category =>
+      category.images.map(path => ({ category: category.slug, label: category.name, path }))
+    );
+
+    function buildFilters() {
+      const allBtn = `<button class="filter-btn active" data-filter="all">All Photos <span>${allImages.length}</span></button>`;
+      const categoryButtons = galleryData
+        .map(category => `<button class="filter-btn" data-filter="${category.slug}">${category.name} <span>${category.images.length}</span></button>`)
+        .join('');
+
+      galleryFilters.innerHTML = allBtn + categoryButtons;
+    }
+
+    function buildGallery() {
+      galleryGrid.innerHTML = allImages
+        .map((img, index) => `
+          <article class="gallery-item fade-in ${index % 7 === 0 ? 'wide' : ''}" data-category="${img.category}">
+            <img src="${img.path}" alt="${img.label}">
+            <div class="gallery-overlay">
+              <div class="gallery-caption">${img.label}</div>
+            </div>
+          </article>
+        `)
+        .join('');
+
+      galleryTotal.textContent = `${allImages.length} photos across ${galleryData.length} folders`;
+    }
+
+    function applyFilter(filter) {
+      const items = document.querySelectorAll('.gallery-item');
+      let visibleCount = 0;
+
+      items.forEach(item => {
+        const show = filter === 'all' || item.dataset.category === filter;
+        item.classList.toggle('is-hidden', !show);
+        if (show) visibleCount += 1;
       });
+
+      const selected = filter === 'all'
+        ? 'All Photos'
+        : galleryData.find(category => category.slug === filter)?.name;
+
+      galleryTotal.textContent = `${visibleCount} photo${visibleCount !== 1 ? 's' : ''} in ${selected}`;
+    }
+
+    buildFilters();
+    buildGallery();
+
+    galleryFilters.addEventListener('click', event => {
+      const btn = event.target.closest('.filter-btn');
+      if (!btn) return;
+
+      document.querySelectorAll('.filter-btn').forEach(button => button.classList.remove('active'));
+      btn.classList.add('active');
+      applyFilter(btn.dataset.filter);
     });
   </script>
 </body>
