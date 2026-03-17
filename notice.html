@@ -85,41 +85,67 @@
     };
 
     const getFilesFromManifest = async () => {
-      const response = await fetch('notice/notices.json');
+      const response = await fetch('notice/notices.json', { cache: 'no-store' });
       if (!response.ok) return [];
-      const files = await response.json();
-      return Array.isArray(files) ? files.filter(file => /-notice\.(txt|text)$/i.test(file)) : [];
+
+      try {
+        const files = await response.json();
+        return Array.isArray(files) ? files.filter(file => /-notice\.(txt|text)$/i.test(file)) : [];
+      } catch {
+        return [];
+      }
     };
 
     const normalizeFiles = files => [...new Set(files.filter(file => /-notice\.(txt|text)$/i.test(file)))];
 
+    const withAlternateExtension = file => {
+      if (/-notice\.text$/i.test(file)) return file.replace(/\.text$/i, '.txt');
+      if (/-notice\.txt$/i.test(file)) return file.replace(/\.txt$/i, '.text');
+      return file;
+    };
+
+    const loadNoticeFile = async file => {
+      const attempts = normalizeFiles([file, withAlternateExtension(file)]);
+
+      for (const candidate of attempts) {
+        const response = await fetch(`notice/${candidate}`, { cache: 'no-store' });
+        if (!response.ok) continue;
+
+        const text = await response.text();
+        return parseNoticeText(text, candidate);
+      }
+
+      return null;
+    };
+
     const loadNotices = async () => {
       try {
-        let files = [];
-
+        let filesFromListing = [];
         try {
-          files = normalizeFiles(await getFilesFromDirectoryListing());
+          filesFromListing = normalizeFiles(await getFilesFromDirectoryListing());
         } catch {
-          files = [];
+          filesFromListing = [];
         }
 
-        if (!files.length) {
-          files = normalizeFiles(await getFilesFromManifest());
-        }
+        const filesFromManifest = normalizeFiles(await getFilesFromManifest());
+        const defaultFiles = [
+          'admission-notice.text',
+          'summer-holidays-notice.text',
+          'admission-notice.txt',
+          'summer-holidays-notice.txt'
+        ];
 
-        if (!files.length) {
+        const discoveredFiles = normalizeFiles([...filesFromListing, ...filesFromManifest]);
+        const files = discoveredFiles.length ? discoveredFiles : defaultFiles;
+
+        const notices = await Promise.all(files.map(loadNoticeFile));
+        const clean = notices.filter(Boolean);
+
+        if (!clean.length) {
           renderNotices([]);
           return;
         }
 
-        const notices = await Promise.all(files.map(async file => {
-          const response = await fetch(`notice/${file}`);
-          if (!response.ok) return null;
-          const text = await response.text();
-          return parseNoticeText(text, file);
-        }));
-
-        const clean = notices.filter(Boolean);
         clean.sort((a, b) => new Date(b.date) - new Date(a.date));
         renderNotices(clean);
       } catch {
