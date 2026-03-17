@@ -64,7 +64,7 @@
 
       noticeCount.textContent = `${notices.length} notice${notices.length === 1 ? '' : 's'}`;
       noticeTimeline.innerHTML = notices.map((notice, index) => `
-        <article class="notice-card fade-in" style="transition-delay:${index * 0.08}s">
+        <article class="notice-card" style="animation-delay:${index * 0.08}s">
           <div class="notice-dot" aria-hidden="true"></div>
           <div class="notice-card-head">
             <h3>${notice.subject}</h3>
@@ -74,6 +74,17 @@
           <a class="notice-download" href="notice/${notice.fileName}" target="_blank" rel="noopener noreferrer">View original notice</a>
         </article>
       `).join('');
+
+      // Force visibility — cards are injected after IntersectionObserver runs in main.js
+      // so fade-in class never gets triggered. We animate via CSS instead.
+      requestAnimationFrame(() => {
+        document.querySelectorAll('.notice-card').forEach((el, i) => {
+          setTimeout(() => {
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0)';
+          }, i * 80);
+        });
+      });
     };
 
     const getFilesFromDirectoryListing = async () => {
