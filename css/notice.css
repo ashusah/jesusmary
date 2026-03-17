@@ -1,0 +1,116 @@
+.notice-hero {
+  padding-bottom: 3rem;
+}
+
+.notice-section {
+  background: linear-gradient(180deg, var(--bg) 0%, #f8fbff 100%);
+}
+
+.notice-head {
+  margin: 2.5rem 0 1.4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+}
+
+.notice-count {
+  color: var(--text-muted);
+  font-size: 0.84rem;
+  font-weight: 700;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.5rem 0.95rem;
+}
+
+.notice-timeline {
+  position: relative;
+  padding-left: 1.4rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.notice-timeline::before {
+  content: '';
+  position: absolute;
+  left: 0.3rem;
+  top: 0.2rem;
+  bottom: 0.2rem;
+  width: 2px;
+  background: linear-gradient(var(--primary-light), #b4c8f3);
+}
+
+.notice-card {
+  position: relative;
+  background: #fff;
+  border: 1px solid #d7e4fb;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 1rem 1.1rem;
+}
+
+.notice-dot {
+  position: absolute;
+  left: -1.6rem;
+  top: 1.15rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 2px #d2e2fb;
+}
+
+.notice-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.65rem;
+}
+
+.notice-card-head h3 {
+  color: var(--primary);
+  font-size: 1rem;
+}
+
+.notice-card-head span {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.notice-card-body p {
+  color: #35414c;
+  font-size: 0.92rem;
+  line-height: 1.7;
+  margin-bottom: 0.7rem;
+}
+
+.notice-download {
+  display: inline-block;
+  margin-top: 0.3rem;
+  color: var(--primary);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.notice-empty {
+  text-align: center;
+  color: var(--text-muted);
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .notice-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .notice-card-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
