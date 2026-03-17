@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>School Notices | Jesus & Mary's Nursery School</title>
+  <meta name="description" content="Official school notices for admissions, holidays, and parent updates at Jesus & Mary's Nursery School.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/notice.css">
+</head>
+<body data-page="notice">
+  <nav id="navbar"></nav>
+
+  <div class="page-hero notice-hero">
+    <div class="page-hero-tag">Notice Board</div>
+    <h1>School Notices & Announcements</h1>
+    <p>Stay updated with important information for parents and guardians.</p>
+  </div>
+
+  <section class="notice-section">
+    <div class="container">
+      <div class="notice-head fade-in">
+        <div>
+          <div class="section-tag">Parent Communication</div>
+          <h2 class="section-title">Latest Notices</h2>
+        </div>
+        <p class="notice-count" id="noticeCount"></p>
+      </div>
+
+      <div class="notice-timeline" id="noticeTimeline"></div>
+      <p class="notice-empty" id="noticeEmpty" hidden>No notices are available at the moment.</p>
+    </div>
+  </section>
+
+  <footer id="footer"></footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    const noticeTimeline = document.getElementById('noticeTimeline');
+    const noticeCount = document.getElementById('noticeCount');
+    const noticeEmpty = document.getElementById('noticeEmpty');
+
+    const parseNoticeText = (rawText, fileName) => {
+      const cleaned = rawText.replace(/\r/g, '').trim();
+      const [headerBlock, ...bodyParts] = cleaned.split('\n\n');
+      const lines = (headerBlock || '').split('\n');
+
+      const subjectLine = lines.find(line => line.startsWith('Subject:')) || '';
+      const dateLine = lines.find(line => line.startsWith('Date:')) || '';
+
+      const subject = subjectLine.replace('Subject:', '').trim() || fileName.replace(/-notice\.txt$/, '').replace(/-/g, ' ');
+      const date = dateLine.replace('Date:', '').trim() || 'Date not specified';
+
+      const body = bodyParts.join('\n\n').trim();
+      return { subject, date, body, fileName };
+    };
+
+    const renderNotices = notices => {
+      if (!notices.length) {
+        noticeEmpty.hidden = false;
+        noticeCount.textContent = '0 notices';
+        return;
+      }
+
+      noticeCount.textContent = `${notices.length} notice${notices.length === 1 ? '' : 's'}`;
+      noticeTimeline.innerHTML = notices.map((notice, index) => `
+        <article class="notice-card fade-in" style="transition-delay:${index * 0.08}s">
+          <div class="notice-dot" aria-hidden="true"></div>
+          <div class="notice-card-head">
+            <h3>${notice.subject}</h3>
+            <span>${notice.date}</span>
+          </div>
+          <div class="notice-card-body">${notice.body.split('\n\n').map(p => `<p>${p}</p>`).join('')}</div>
+          <a class="notice-download" href="notice/${notice.fileName}" target="_blank" rel="noopener noreferrer">View original notice</a>
+        </article>
+      `).join('');
+    };
+
+    const getFilesFromDirectoryListing = async () => {
+      const response = await fetch('notice/');
+      if (!response.ok) throw new Error('Directory listing unavailable');
+      const html = await response.text();
+      const matches = [...html.matchAll(/href=["']([^"']+-notice\.txt)["']/gi)];
+      return [...new Set(matches.map(match => decodeURIComponent(match[1]).split('/').pop()))];
+    };
+
+    const getFilesFromManifest = async () => {
+      const response = await fetch('notice/notices.json');
+      if (!response.ok) return [];
+      const files = await response.json();
+      return Array.isArray(files) ? files.filter(file => /-notice\.txt$/i.test(file)) : [];
+    };
+
+    const loadNotices = async () => {
+      try {
+        let files = [];
+        try {
+          files = await getFilesFromDirectoryListing();
+        } catch {
+          files = await getFilesFromManifest();
+        }
+
+        files = files.filter(file => /-notice\.txt$/i.test(file));
+        if (!files.length) {
+          renderNotices([]);
+          return;
+        }
+
+        const notices = await Promise.all(files.map(async file => {
+          const response = await fetch(`notice/${file}`);
+          if (!response.ok) return null;
+          const text = await response.text();
+          return parseNoticeText(text, file);
+        }));
+
+        const clean = notices.filter(Boolean);
+        clean.sort((a, b) => new Date(b.date) - new Date(a.date));
+        renderNotices(clean);
+      } catch {
+        renderNotices([]);
+      }
+    };
+
+    loadNotices();
+  </script>
+</body>
+</html>
