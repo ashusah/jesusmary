@@ -102,6 +102,12 @@ function renderFooter() {
             <span class="fc-icon">🕐</span>
             <p>Mon–Sat: 9:15AM – 12:30PM</p>
           </div>
+          <a class="footer-social-link" href="https://instagram.com/jesusandmary_nursery_school" target="_blank" rel="noopener noreferrer" aria-label="Follow Jesus and Mary Nursery School on Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2Zm-.2 2A3.6 3.6 0 0 0 4 7.6v8.8A3.6 3.6 0 0 0 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6A3.6 3.6 0 0 0 16.4 4H7.6Zm9.45 1.5a1.15 1.15 0 1 1 0 2.3 1.15 1.15 0 0 1 0-2.3ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/>
+            </svg>
+            <span>@jesusandmary_nursery_school</span>
+          </a>
         </div>
 
       </div>

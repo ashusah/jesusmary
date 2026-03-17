@@ -348,6 +348,27 @@ ul { list-style: none; }
   line-height: 1.5;
 }
 
+.footer-social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.55rem;
+  color: rgba(255,255,255,0.82);
+  font-size: 0.84rem;
+  font-weight: 700;
+  transition: var(--transition);
+}
+
+.footer-social-link svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+.footer-social-link:hover {
+  color: var(--gold);
+}
+
 .footer-bottom {
   display: flex;
   justify-content: space-between;
